@@ -1,14 +1,15 @@
+import { Fragment, useRef, useState } from "react";
 import { Prompt } from "react-router-dom";
-import { useRef, useState, Fragment } from "react";
 
 import Card from "../UI/Card";
 import LoadingSpinner from "../UI/LoadingSpinner";
 import classes from "./QuoteForm.module.css";
 
 const QuoteForm = (props) => {
+  const [isEntering, setIsEntering] = useState(false);
+
   const authorInputRef = useRef();
   const textInputRef = useRef();
-  const [isEntering, setIsEntering] = useState(false);
 
   function submitFormHandler(event) {
     event.preventDefault();
@@ -21,11 +22,11 @@ const QuoteForm = (props) => {
     props.onAddQuote({ author: enteredAuthor, text: enteredText });
   }
 
-  const finishHandler = () => {
+  const finishEnteringHandler = () => {
     setIsEntering(false);
   };
 
-  const formFocusHandler = () => {
+  const formFocusedHandler = () => {
     setIsEntering(true);
   };
 
@@ -39,7 +40,7 @@ const QuoteForm = (props) => {
       />
       <Card>
         <form
-          onFocus={formFocusHandler}
+          onFocus={formFocusedHandler}
           className={classes.form}
           onSubmit={submitFormHandler}
         >
@@ -58,7 +59,7 @@ const QuoteForm = (props) => {
             <textarea id="text" rows="5" ref={textInputRef}></textarea>
           </div>
           <div className={classes.actions}>
-            <button onClick={finishHandler} className="btn">
+            <button onClick={finishEnteringHandler} className="btn">
               Add Quote
             </button>
           </div>
